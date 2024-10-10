@@ -2,14 +2,14 @@
 
 import { Product } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-// import { Badge } from "../../_components/ui/badge";
+import { Badge } from "../../_components/ui/badge";
 
-// const getStatusLabel = (status: string) => {
-//   if (status === "IN_STOCK") {
-//     return "Em estoque";
-//   }
-//   return "Fora de estoque";
-// };
+const getStatusLabel = (status: string) => {
+  if (status === "IN_STOCK") {
+    return "Em estoque";
+  }
+  return "Fora de estoque";
+};
 
 export const productTableColumns: ColumnDef<Product>[] = [
   {
@@ -27,10 +27,10 @@ export const productTableColumns: ColumnDef<Product>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    // cell: (row) => {
-    //   const product = row.row.original;
-    //   const label = getStatusLabel(product.status);
-    //   return <Badge>{label}</Badge>
-    // },
+    cell: (row) => {
+      const product = row.row.original;
+      const label = getStatusLabel(product.status);
+      return <Badge>{label}</Badge>;
+    },
   },
 ];
