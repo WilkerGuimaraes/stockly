@@ -25,11 +25,11 @@ import {
 } from "@/app/_components/ui/form";
 import { Input } from "@/app/_components/ui/input";
 import { NumericFormat } from "react-number-format";
-import { createProduct } from "@/app/_actions/create-product";
+import { createProduct } from "@/app/_actions/product/create-product";
 import {
   CreateProductSchema,
   createProductSchema,
-} from "@/app/_actions/create-product/schema";
+} from "@/app/_actions/product/create-product/schema";
 
 const CreateProductButton = () => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);

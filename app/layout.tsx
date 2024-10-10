@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import SideBar from "./_components/sidebar";
+import { Toaster } from "./_components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,6 +27,8 @@ export default function RootLayout({
           <SideBar />
           {children}
         </div>
+
+        <Toaster />
       </body>
     </html>
   );
