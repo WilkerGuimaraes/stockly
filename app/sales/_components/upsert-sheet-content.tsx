@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckIcon, PlusIcon } from "lucide-react";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { useAction } from "next-safe-action/hooks";
 
 import {
   SheetContent,
@@ -40,6 +41,7 @@ import SalesTableDropdownMenu from "./table-dropdown-menu";
 import { createSale } from "@/app/_actions/sale/create-sale";
 import { toast } from "sonner";
 import { revalidatePath } from "next/cache";
+import { flattenValidationErrors } from "next-safe-action";
 
 const formSchema = z.object({
   productId: z.string().uuid({
@@ -71,6 +73,17 @@ const UpsertSheetContent = ({
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
     [],
   );
+
+  const { execute: executeCreateSale } = useAction(createSale, {
+    onError: ({ error: { validationErrors, serverError } }) => {
+      const flattenedErrors = flattenValidationErrors(validationErrors);
+      toast.error(serverError ?? flattenedErrors.formErrors[0]);
+    },
+    onSuccess: () => {
+      toast.success("Venda realizada com sucesso.");
+      setSheetIsOpen(false);
+    },
+  });
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -147,18 +160,12 @@ const UpsertSheetContent = ({
   };
 
   const onSubmitSale = async () => {
-    try {
-      await createSale({
-        products: selectedProducts.map((product) => ({
-          id: product.id,
-          quantity: product.quantity,
-        })),
-      });
-      toast.success("Venda realizada com sucesso!");
-      setSheetIsOpen(false);
-    } catch (error) {
-      toast.error("Erro ao realizar a venda.");
-    }
+    executeCreateSale({
+      products: selectedProducts.map((product) => ({
+        id: product.id,
+        quantity: product.quantity,
+      })),
+    });
   };
 
   return (
