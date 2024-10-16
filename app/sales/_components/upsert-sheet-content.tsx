@@ -40,7 +40,6 @@ import { formatCurrency } from "@/app/_helpers/currency";
 import SalesTableDropdownMenu from "./table-dropdown-menu";
 import { createSale } from "@/app/_actions/sale/create-sale";
 import { toast } from "sonner";
-import { revalidatePath } from "next/cache";
 import { flattenValidationErrors } from "next-safe-action";
 
 const formSchema = z.object({
