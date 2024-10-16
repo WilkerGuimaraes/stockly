@@ -37,7 +37,7 @@ import {
   TableRow,
 } from "@/app/_components/ui/table";
 import { formatCurrency } from "@/app/_helpers/currency";
-import SalesTableDropdownMenu from "./table-dropdown-menu";
+import UpsertSaleTableDropdownMenu from "./upsert-table-dropdown-menu";
 import { createSale } from "@/app/_actions/sale/create-sale";
 import { toast } from "sonner";
 import { flattenValidationErrors } from "next-safe-action";
@@ -242,7 +242,10 @@ const UpsertSheetContent = ({
                 {formatCurrency(product.price * product.quantity)}
               </TableCell>
               <TableCell>
-                <SalesTableDropdownMenu product={product} onDelete={onDelete} />
+                <UpsertSaleTableDropdownMenu
+                  product={product}
+                  onDelete={onDelete}
+                />
               </TableCell>
             </TableRow>
           ))}

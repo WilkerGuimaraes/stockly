@@ -11,15 +11,15 @@ import {
 } from "@/app/_components/ui/dropdown-menu";
 import { Product } from "@prisma/client";
 
-interface SalesTableDropdownMenuProps {
+interface UpsertSaleTableDropdownMenuProps {
   product: Pick<Product, "id">;
   onDelete: (productId: string) => void;
 }
 
-const SalesTableDropdownMenu = ({
+const UpsertSaleTableDropdownMenu = ({
   onDelete,
   product,
-}: SalesTableDropdownMenuProps) => {
+}: UpsertSaleTableDropdownMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -50,4 +50,4 @@ const SalesTableDropdownMenu = ({
   );
 };
 
-export default SalesTableDropdownMenu;
+export default UpsertSaleTableDropdownMenu;
