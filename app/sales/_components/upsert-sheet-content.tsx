@@ -38,7 +38,7 @@ import {
 } from "@/app/_components/ui/table";
 import { formatCurrency } from "@/app/_helpers/currency";
 import UpsertSaleTableDropdownMenu from "./upsert-table-dropdown-menu";
-import { createSale } from "@/app/_actions/sale/create-sale";
+import { upsertSale } from "@/app/_actions/sale/upsert-sale";
 import { toast } from "sonner";
 import { flattenValidationErrors } from "next-safe-action";
 
@@ -51,12 +51,6 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-interface UpsertSheetContentProps {
-  products: ProductDto[];
-  productOptions: ComboboxOption[];
-  setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
-}
-
 interface SelectedProduct {
   id: string;
   name: string;
@@ -64,16 +58,26 @@ interface SelectedProduct {
   quantity: number;
 }
 
+interface UpsertSheetContentProps {
+  saleId?: string;
+  products: ProductDto[];
+  productOptions: ComboboxOption[];
+  setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
+  defaultSelectedProducts?: SelectedProduct[];
+}
+
 const UpsertSheetContent = ({
+  saleId,
   products,
   productOptions,
   setSheetIsOpen,
+  defaultSelectedProducts,
 }: UpsertSheetContentProps) => {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
-    [],
+    defaultSelectedProducts ?? [],
   );
 
-  const { execute: executeCreateSale } = useAction(createSale, {
+  const { execute: executeUpsertSale } = useAction(upsertSale, {
     onError: ({ error: { validationErrors, serverError } }) => {
       const flattenedErrors = flattenValidationErrors(validationErrors);
       toast.error(serverError ?? flattenedErrors.formErrors[0]);
@@ -159,7 +163,8 @@ const UpsertSheetContent = ({
   };
 
   const onSubmitSale = async () => {
-    executeCreateSale({
+    executeUpsertSale({
+      id: saleId,
       products: selectedProducts.map((product) => ({
         id: product.id,
         quantity: product.quantity,

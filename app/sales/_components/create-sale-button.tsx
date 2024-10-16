@@ -8,12 +8,12 @@ import { ComboboxOption } from "@/app/_components/ui/combobox";
 import UpsertSheetContent from "./upsert-sheet-content";
 import { PlusIcon } from "lucide-react";
 
-interface CreateSaleButtonProps {
+interface UpsertSaleButtonProps {
   products: ProductDto[];
   productOptions: ComboboxOption[];
 }
 
-const CreateSaleButton = (props: CreateSaleButtonProps) => {
+const UpsertSaleButton = (props: UpsertSaleButtonProps) => {
   const [sheetIsOpen, setSheetIsOpen] = useState(false);
 
   return (
@@ -30,4 +30,4 @@ const CreateSaleButton = (props: CreateSaleButtonProps) => {
   );
 };
 
-export default CreateSaleButton;
+export default UpsertSaleButton;
