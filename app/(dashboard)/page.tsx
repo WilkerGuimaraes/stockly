@@ -1,26 +1,17 @@
-import {
-  CircleDollarSign,
-  DollarSign,
-  PackageIcon,
-  ShoppingBasketIcon,
-} from "lucide-react";
 import Header from "../_components/header";
-import { SummaryCard } from "./_components/summary-card";
 import { getDashboard } from "../_data-access/dashboard/get-dashboard";
-import { formatCurrency } from "../_helpers/currency";
 import RevenueChart from "./_components/revenue-chart";
 import MostSoldProductItem from "./_components/most-sold-product-item";
+import TotalRevenueCard from "./_components/total-summary-card";
+import { Suspense } from "react";
+import SummaryCardSkeleton from "../_components/summary-card-skeleton";
+import TodayRevenueCard from "./_components/today-summary-card";
+import TotalSalesCard from "./_components/total-sales-card";
+import TotalInStockCard from "./_components/total-in-stock-card";
+import TotalProductsCard from "./_components/total-products-card";
 
 export default async function Home() {
-  const {
-    totalRevenue,
-    todayRevenue,
-    totalSales,
-    totalStock,
-    totalProducts,
-    totalLast14daysRevenue,
-    mostSoldProducts,
-  } = await getDashboard();
+  const { totalLast14daysRevenue, mostSoldProducts } = await getDashboard();
 
   return (
     <div className="m-8 flex w-full flex-col space-y-8 rounded-lg">
@@ -32,47 +23,27 @@ export default async function Home() {
       </Header.Root>
 
       <div className="grid grid-cols-2 gap-6">
-        <SummaryCard.Root>
-          <SummaryCard.Icon>
-            <DollarSign />
-          </SummaryCard.Icon>
-          <SummaryCard.Title>Receita Total</SummaryCard.Title>
-          <SummaryCard.Value>{formatCurrency(totalRevenue)}</SummaryCard.Value>
-        </SummaryCard.Root>
+        <Suspense fallback={<SummaryCardSkeleton />}>
+          <TotalRevenueCard />
+        </Suspense>
 
-        <SummaryCard.Root>
-          <SummaryCard.Icon>
-            <DollarSign />
-          </SummaryCard.Icon>
-          <SummaryCard.Title>Receita Hoje</SummaryCard.Title>
-          <SummaryCard.Value>{formatCurrency(todayRevenue)}</SummaryCard.Value>
-        </SummaryCard.Root>
+        <Suspense fallback={<SummaryCardSkeleton />}>
+          <TodayRevenueCard />
+        </Suspense>
       </div>
 
       <div className="grid grid-cols-3 gap-6">
-        <SummaryCard.Root>
-          <SummaryCard.Icon>
-            <CircleDollarSign />
-          </SummaryCard.Icon>
-          <SummaryCard.Title>Vendas Totais</SummaryCard.Title>
-          <SummaryCard.Value>{totalSales}</SummaryCard.Value>
-        </SummaryCard.Root>
+        <Suspense fallback={<SummaryCardSkeleton />}>
+          <TotalSalesCard />
+        </Suspense>
 
-        <SummaryCard.Root>
-          <SummaryCard.Icon>
-            <PackageIcon />
-          </SummaryCard.Icon>
-          <SummaryCard.Title>Total em Estoque</SummaryCard.Title>
-          <SummaryCard.Value>{totalStock}</SummaryCard.Value>
-        </SummaryCard.Root>
+        <Suspense fallback={<SummaryCardSkeleton />}>
+          <TotalInStockCard />
+        </Suspense>
 
-        <SummaryCard.Root>
-          <SummaryCard.Icon>
-            <ShoppingBasketIcon />
-          </SummaryCard.Icon>
-          <SummaryCard.Title>Produtos</SummaryCard.Title>
-          <SummaryCard.Value>{totalProducts}</SummaryCard.Value>
-        </SummaryCard.Root>
+        <Suspense fallback={<SummaryCardSkeleton />}>
+          <TotalProductsCard />
+        </Suspense>
       </div>
 
       <div className="grid min-h-0 grid-cols-[minmax(0,2.5fr),minmax(0,1fr)] gap-6">
@@ -84,7 +55,7 @@ export default async function Home() {
         </div>
 
         <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white">
-          <p className="p6 text-lg font-semibold text-slate-900">
+          <p className="p-6 text-lg font-semibold text-slate-900">
             Produtos mais vendidos
           </p>
 
