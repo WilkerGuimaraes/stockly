@@ -1,6 +1,7 @@
 import {
   CircleDollarSign,
   DollarSign,
+  DollarSignIcon,
   PackageIcon,
   ShoppingBasketIcon,
 } from "lucide-react";
@@ -8,13 +9,20 @@ import Header from "../_components/header";
 import { SummaryCard } from "./_components/summary-card";
 import { getDashboard } from "../_data-access/dashboard/get-dashboard";
 import { formatCurrency } from "../_helpers/currency";
+import RevenueChart from "./_components/revenue-chart";
 
 export default async function Home() {
-  const { totalRevenue, todayRevenue, totalSales, totalStock, totalProducts } =
-    await getDashboard();
+  const {
+    totalRevenue,
+    todayRevenue,
+    totalSales,
+    totalStock,
+    totalProducts,
+    totalLast14daysRevenue,
+  } = await getDashboard();
 
   return (
-    <div className="m-8 w-full space-y-8 rounded-lg">
+    <div className="m-8 flex w-full flex-col space-y-8 rounded-lg">
       <Header.Root>
         <Header.Left>
           <Header.SubTitle>Visão geral dos dados</Header.SubTitle>
@@ -64,6 +72,13 @@ export default async function Home() {
           <SummaryCard.Title>Produtos</SummaryCard.Title>
           <SummaryCard.Value>{formatCurrency(totalProducts)}</SummaryCard.Value>
         </SummaryCard.Root>
+      </div>
+
+      <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white p-6">
+        <p className="text-lg font-semibold text-slate-900">Receita</p>
+        <p className="text-sm text-slate-400">Últimos 14 dias</p>
+
+        <RevenueChart data={totalLast14daysRevenue} />
       </div>
     </div>
   );
