@@ -1,7 +1,6 @@
 import {
   CircleDollarSign,
   DollarSign,
-  DollarSignIcon,
   PackageIcon,
   ShoppingBasketIcon,
 } from "lucide-react";
@@ -10,6 +9,7 @@ import { SummaryCard } from "./_components/summary-card";
 import { getDashboard } from "../_data-access/dashboard/get-dashboard";
 import { formatCurrency } from "../_helpers/currency";
 import RevenueChart from "./_components/revenue-chart";
+import MostSoldProductItem from "./_components/most-sold-product-item";
 
 export default async function Home() {
   const {
@@ -19,6 +19,7 @@ export default async function Home() {
     totalStock,
     totalProducts,
     totalLast14daysRevenue,
+    mostSoldProducts,
   } = await getDashboard();
 
   return (
@@ -54,7 +55,7 @@ export default async function Home() {
             <CircleDollarSign />
           </SummaryCard.Icon>
           <SummaryCard.Title>Vendas Totais</SummaryCard.Title>
-          <SummaryCard.Value>{formatCurrency(totalSales)}</SummaryCard.Value>
+          <SummaryCard.Value>{totalSales}</SummaryCard.Value>
         </SummaryCard.Root>
 
         <SummaryCard.Root>
@@ -62,7 +63,7 @@ export default async function Home() {
             <PackageIcon />
           </SummaryCard.Icon>
           <SummaryCard.Title>Total em Estoque</SummaryCard.Title>
-          <SummaryCard.Value>{formatCurrency(totalStock)}</SummaryCard.Value>
+          <SummaryCard.Value>{totalStock}</SummaryCard.Value>
         </SummaryCard.Root>
 
         <SummaryCard.Root>
@@ -70,15 +71,29 @@ export default async function Home() {
             <ShoppingBasketIcon />
           </SummaryCard.Icon>
           <SummaryCard.Title>Produtos</SummaryCard.Title>
-          <SummaryCard.Value>{formatCurrency(totalProducts)}</SummaryCard.Value>
+          <SummaryCard.Value>{totalProducts}</SummaryCard.Value>
         </SummaryCard.Root>
       </div>
 
-      <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white p-6">
-        <p className="text-lg font-semibold text-slate-900">Receita</p>
-        <p className="text-sm text-slate-400">Últimos 14 dias</p>
+      <div className="grid min-h-0 grid-cols-[minmax(0,2.5fr),minmax(0,1fr)] gap-6">
+        <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white p-6">
+          <p className="text-lg font-semibold text-slate-900">Receita</p>
+          <p className="text-sm text-slate-400">Últimos 14 dias</p>
 
-        <RevenueChart data={totalLast14daysRevenue} />
+          <RevenueChart data={totalLast14daysRevenue} />
+        </div>
+
+        <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white">
+          <p className="p6 text-lg font-semibold text-slate-900">
+            Produtos mais vendidos
+          </p>
+
+          <div className="mt-6 space-y-7 overflow-y-auto px-6 pb-6">
+            {mostSoldProducts.map((product) => (
+              <MostSoldProductItem key={product.productId} product={product} />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
