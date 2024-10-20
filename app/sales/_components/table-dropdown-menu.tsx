@@ -119,6 +119,7 @@ const SalesTableDropdownMenu = ({
 
       <UpsertSheetContent
         saleId={sale.id}
+        isOpen={upsertSheetIsOpen}
         productOptions={productsOptions}
         products={products}
         setSheetIsOpen={setUpsertSheetIsOpen}

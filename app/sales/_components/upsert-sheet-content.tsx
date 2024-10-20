@@ -4,7 +4,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckIcon, PlusIcon } from "lucide-react";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { useAction } from "next-safe-action/hooks";
 
 import {
@@ -59,6 +59,7 @@ interface SelectedProduct {
 }
 
 interface UpsertSheetContentProps {
+  isOpen: boolean;
   saleId?: string;
   products: ProductDto[];
   productOptions: ComboboxOption[];
@@ -67,6 +68,7 @@ interface UpsertSheetContentProps {
 }
 
 const UpsertSheetContent = ({
+  isOpen,
   saleId,
   products,
   productOptions,
@@ -87,6 +89,17 @@ const UpsertSheetContent = ({
       setSheetIsOpen(false);
     },
   });
+
+  useEffect(() => {
+    if (!isOpen) {
+      form.reset();
+      setSelectedProducts([]);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    setSelectedProducts(defaultSelectedProducts ?? []);
+  }, [defaultSelectedProducts]);
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
