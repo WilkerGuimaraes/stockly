@@ -1,6 +1,6 @@
 "use client";
 
-import { DayTotalRevenue } from "@/app/_data-access/dashboard/get-dashboard";
+import { DayTotalRevenueDto } from "@/app/_data-access/dashboard/get-task-14-days-revenue";
 import {
   ChartConfig,
   ChartContainer,
@@ -16,7 +16,7 @@ const chartConfig: ChartConfig = {
 } satisfies ChartConfig;
 
 interface RevenueChartProps {
-  data: DayTotalRevenue[];
+  data: DayTotalRevenueDto[];
 }
 
 const RevenueChart = ({ data }: RevenueChartProps) => {

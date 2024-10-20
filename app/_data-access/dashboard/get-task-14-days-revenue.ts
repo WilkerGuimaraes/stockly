@@ -2,7 +2,7 @@ import { db } from "@/app/_lib/prisma";
 import dayjs from "dayjs";
 import "server-only";
 
-interface DayTotalRevenueDto {
+export interface DayTotalRevenueDto {
   day: string;
   totalRevenue: number;
 }

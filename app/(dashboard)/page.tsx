@@ -6,10 +6,12 @@ import TodayRevenueCard from "./_components/today-summary-card";
 import TotalSalesCard from "./_components/total-sales-card";
 import TotalInStockCard from "./_components/total-in-stock-card";
 import TotalProductsCard from "./_components/total-products-card";
-import Last14DaysRevenueCard from "./_components/last-14-days-revenue-card";
-import ChartSkeleton from "../_components/chart-skeleton";
-import MostSoldProducts from "./_components/most-sold-products";
-import MostSoldProductsSkeleton from "../_components/most-sold-products-skeleton";
+import Last14DaysRevenueCard, {
+  ChartSkeleton,
+} from "./_components/last-14-days-revenue-card";
+import MostSoldProducts, {
+  MostSoldProductsSkeleton,
+} from "./_components/most-sold-products";
 
 export default async function Home() {
   return (
